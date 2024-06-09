@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Apology Page</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            overflow: hidden;
+            padding: 0 10px;
+            box-sizing: border-box;
+        }
+        .page {
+            display: none;
+            text-align: center;
+            width: 100%;
+        }
+        button {
+            margin: 20px;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            cursor: pointer;
+        }
+        #no-button {
+            position: absolute;
+            touch-action: none;
+        }
+        #yes-button, #no-button {
+            min-width: 150px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Initial Hi Page -->
+    <div id="hi-page" class="page" style="display: flex;">
+        <h1>Hi, who's my baby?</h1>
+        <button onclick="showNextPage('sorry-page')">Hi, me.</button>
+    </div>
+
+    <!-- Sorry Page -->
+    <div id="sorry-page" class="page">
+        <h1>I am sorry and I love you</h1>
+        <button onclick="showNextPage('question-page')">I love you more</button>
+    </div>
+
+    <!-- Question Page -->
+    <div id="question-page" class="page">
+        <h1>Are you sorry about starting a fight?</h1>
+        <button id="yes-button" onclick="showNextPage('final-page')">Yes</button>
+        <button id="no-button" onmouseover="moveNoButton()">No</button>
+    </div>
+
+    <!-- Final Page -->
+    <div id="final-page" class="page">
+        <h1>Good, now please let's never fight again and send me an audio that you promised a long time ago and then come see me if you can and give a lot of neck kisses, they're heavenly. I love you <3</h1>
+    </div>
+
+    <script>
+        function showNextPage(nextPageId) {
+            const currentPage = document.querySelector('.page:not([style*="display: none"])');
+            if (currentPage) {
+                currentPage.style.display = 'none';
+            }
+            document.getElementById(nextPageId).style.display = 'flex';
+        }
+
+        function moveNoButton() {
+            const noButton = document.getElementById('no-button');
+            const maxX = window.innerWidth - noButton.offsetWidth;
+            const maxY = window.innerHeight - noButton.offsetHeight;
+            const x = Math.floor(Math.random() * maxX);
+            const y = Math.floor(Math.random() * maxY);
+            noButton.style.left = `${x}px`;
+            noButton.style.top = `${y}px`;
+        }
+
+        // Ensure no button remains in viewport on resize
+        window.addEventListener('resize', () => {
+            const noButton = document.getElementById('no-button');
+            if (noButton.style.display !== 'none') {
+                const maxX = window.innerWidth - noButton.offsetWidth;
+                const maxY = window.innerHeight - noButton.offsetHeight;
+                if (parseInt(noButton.style.left) > maxX) {
+                    noButton.style.left = `${maxX}px`;
+                }
+                if (parseInt(noButton.style.top) > maxY) {
+                    noButton.style.top = `${maxY}px`;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
